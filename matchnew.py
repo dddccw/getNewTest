@@ -4,7 +4,9 @@ from getnew import *
 import pandas as pd
 import xlrd as xd
 class matchnew(object):
-
+    '''
+    将筛选后的地区数据与区域行政代码相匹配，存储匹配后的数据到.csv文件
+    ''' 
     def __init__(self):
         pass
 
@@ -26,6 +28,9 @@ class matchnew(object):
         #print(len(sd3.columns.values))
         #读取筛选后地区数据
         data =  pd.read_csv(screen_csv_url,engine='python',encoding='utf-8')
+        sc0=len(data.index.values)
+        print(sc0)
+        sc01=sc0-1
         #print(data)
         area_sc=data['地区']
         area_sc21=data['已筛选地区']
@@ -120,7 +125,9 @@ class matchnew(object):
             xe1=0
             xe2=0
             xe3=0
-            sc2+=1
+            if sc2!=sc01:
+                sc2+=1
+        
             #print()
 
         data['省洲代码']=area_code

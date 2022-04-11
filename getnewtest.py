@@ -25,10 +25,11 @@ def main():
     #获取当前0时区的分钟数值
     t1m=timet1.tm_min
     #设置运行时间
+    '''
     t1hflag=12
     t1mflag=30
-    t2hflag=24
-    t2mflag=39
+    t2hflag=22
+    t2mflag=10
     print(t1h)
     print(t1m)
     while True :   
@@ -49,7 +50,9 @@ def main():
            time.sleep(61)
     #do_screen_area_data = screen_area_data()
     #do_screen_area_data.remove_duplicate_data()
-   
+   '''
+    do_screen_area_data = screen_area_data()
+    do_screen_area_data.remove_duplicate_data()
 
 if __name__ == '__main__':
     main()

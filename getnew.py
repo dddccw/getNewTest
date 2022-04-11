@@ -5,7 +5,7 @@ from config import *
 
 class get_middlehigh_region(object):
     """
-    获取中高风险地区数据并存储为csv文件
+    获取中高风险地区数据并进行筛选，最终存储为csv文件
     """
     def __init__(self):
         pass
@@ -28,6 +28,7 @@ class get_middlehigh_region(object):
         dicts = response_dict ['data']
         update_time = dicts['dateline']
         city_maps= dicts['map']
+        print(city_maps)
         #print(city_maps)
         '''
         print("-------------")
@@ -50,51 +51,56 @@ class get_middlehigh_region(object):
                     for area_item in areas:
                         result = []
                         result_selected=[]
+                        #获取风险等级
                         grade = str(area_item['grade'])
-                        if grade == '1':
-                            result.append('中风险')
-                            #result.append('1')
-                        if grade == '2':
-                            result.append('高风险')
-                            #result.append('2')
-                        result.append(str(item2))
-                        result.append(str(area_item['city']+'市'+area_item['addr']))
-                         #筛选地区
-                        if area_item['province'].find('北京') !=-1 or area_item['province'].find('重庆') !=-1 or area_item['province'].find('天津') !=-1 or area_item['province'].find('上海') !=-1:
-                            if area_item['addr'].find('市') !=-1:
-                                area_select=area_item['province']+'市'+area_item['city']+area_item['addr'][:area_item['addr'].find('市')+1]
-                            elif area_item['addr'].find('区') !=-1:
-                                area_select=area_item['province']+'市'+area_item['city']+area_item['addr'][:area_item['addr'].find('区')+1]
-                            elif area_item['addr'].find('县') !=-1:
-                                area_select=area_item['province']+'市'+area_item['city']+area_item['addr'][:area_item['addr'].find('县')+1]
+                        #print(grade)
+                        if grade != '0':
+                            if grade == '1':
+                                result.append('中风险')
+                                #result.append('1')
+                            elif grade == '2':
+                                result.append('高风险')
+                                #result.append('2')
+                            result.append(str(item2))
+                            result.append(str(area_item['city']+'市'+area_item['addr']))
+                            #筛选地区
+                            #筛选直辖市分类的地区
+                            if area_item['province'].find('北京') !=-1 or area_item['province'].find('重庆') !=-1 or area_item['province'].find('天津') !=-1 or area_item['province'].find('上海') !=-1:
+                                if area_item['addr'].find('市') !=-1:
+                                    area_select=area_item['province']+'市'+area_item['city']+area_item['addr'][:area_item['addr'].find('市')+1]
+                                elif area_item['addr'].find('区') !=-1:
+                                    area_select=area_item['province']+'市'+area_item['city']+area_item['addr'][:area_item['addr'].find('区')+1]
+                                elif area_item['addr'].find('县') !=-1:
+                                    area_select=area_item['province']+'市'+area_item['city']+area_item['addr'][:area_item['addr'].find('县')+1]
+                                else:
+                                    area_select=area_item['province']+'市'+area_item['city']+area_item['addr']
+                            #筛选非直辖市类地区
                             else:
-                                area_select=area_item['province']+'市'+area_item['city']+area_item['addr']
-                        else:
-                            if area_item['addr'].find('市') !=-1:
-                                area_select= area_item['city']+'市'+area_item['addr'][:area_item['addr'].find('市')+1]
-                            elif area_item['addr'].find('区') !=-1:
-                                area_select=area_item['city']+'市'+area_item['addr'][:area_item['addr'].find('区')+1]
-                            elif area_item['addr'].find('县') !=-1:
-                                area_select=area_item['city']+'市'+area_item['addr'][:area_item['addr'].find('县')+1]
-                            elif area_item['addr'].find('开发区') !=-1:
-                                area_select=area_item['city']+'市'+area_item['addr'][:area_item['addr'].find('开发区')+3]
-                            elif area_item['addr'].find('旗') !=-1:
-                                area_select=area_item['city']+'市'+area_item['addr'][:area_item['addr'].find('旗')+1]
-                            else:
-                                area_select=area_item['city']+'市'+area_item['addr']
-                        #二轮筛查
-                        if area_select.find('县') != -1:
-                            area_select = area_select[:area_select.find('县') + 1]
-                        if area_select.find('区') != -1:
-                            area_select = area_select[:area_select.find('区') + 1]
-                        if area_select.find('旗') != -1:
-                            area_select = area_select[:area_select.find('旗') + 1]
-            # 挑选出直接市下面就是镇的情况
-                        if area_select.find('镇') != -1:
-                            area_select = area_select[:area_select.find('镇') + 1]
-                        result_selected.append(area_select)
-                        result.append(area_select)
-                        results.append(result)
+                                if area_item['addr'].find('市') !=-1:
+                                    area_select= area_item['city']+'市'+area_item['addr'][:area_item['addr'].find('市')+1]
+                                elif area_item['addr'].find('区') !=-1:
+                                    area_select=area_item['city']+'市'+area_item['addr'][:area_item['addr'].find('区')+1]
+                                elif area_item['addr'].find('县') !=-1:
+                                    area_select=area_item['city']+'市'+area_item['addr'][:area_item['addr'].find('县')+1]
+                                elif area_item['addr'].find('开发区') !=-1:
+                                    area_select=area_item['city']+'市'+area_item['addr'][:area_item['addr'].find('开发区')+3]
+                                elif area_item['addr'].find('旗') !=-1:
+                                    area_select=area_item['city']+'市'+area_item['addr'][:area_item['addr'].find('旗')+1]
+                                else:
+                                    area_select=area_item['city']+'市'+area_item['addr']
+                            #二轮筛查，排除特殊地名对一轮筛选的干扰
+                            if area_select.find('县') != -1:
+                                area_select = area_select[:area_select.find('县') + 1]
+                            if area_select.find('区') != -1:
+                                area_select = area_select[:area_select.find('区') + 1]
+                            if area_select.find('旗') != -1:
+                                area_select = area_select[:area_select.find('旗') + 1]
+                            # 挑选出直接市下面就是镇的情况
+                            if area_select.find('镇') != -1:
+                                area_select = area_select[:area_select.find('镇') + 1]
+                            result_selected.append(area_select)
+                            result.append(area_select)
+                            results.append(result)
                         '''
                         for re1 in results:
                                 reix+=1
@@ -104,6 +110,7 @@ class get_middlehigh_region(object):
                                     break
                         '''
         # 优化因最后一行没有出现风险地区的数据
+        '''
         results[-1] = [results[-2][0], results[-1][0], results[-1][1]]
         print(results[-1])
         area_result1=results[-1]
@@ -149,6 +156,7 @@ class get_middlehigh_region(object):
         if  area_result3.find('镇') != -1:
              area_result3 =  area_result3[: area_result3.find('镇') + 1]
         results[-1].append(area_result3)
+        '''
         return results
 
     def save_data(self):
