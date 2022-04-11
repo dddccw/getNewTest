@@ -25,11 +25,11 @@ def main():
     #获取当前0时区的分钟数值
     t1m=timet1.tm_min
     #设置运行时间
-    '''
-    t1hflag=12
+    
+    t1hflag=11
     t1mflag=30
     t2hflag=22
-    t2mflag=10
+    t2mflag=30
     print(t1h)
     print(t1m)
     while True :   
@@ -39,20 +39,20 @@ def main():
         #判断是否已达到执行时间
         if t1h==t1hflag and t1m == t1mflag:
            print(u"到点执行")
-           do_screen_area_data = screen_area_data()
-           do_screen_area_data.remove_duplicate_data()
+           do_solve_area_data =  solvenew_data()
+           do_solve_area_data.remove_duplicate_data()
         #每次满足执行规定时间时，只执行一次代码   
            time.sleep(61)
         elif t1h==t2hflag and t1m ==t2mflag:
            print(u"到点执行")
-           do_screen_area_data = screen_area_data()
-           do_screen_area_data.remove_duplicate_data()
+           do_solve_area_data = solvenew_data()
+           do_solve_area_data.remove_duplicate_data()
            time.sleep(61)
     #do_screen_area_data = screen_area_data()
     #do_screen_area_data.remove_duplicate_data()
-   '''
+'''
     do_screen_area_data = screen_area_data()
     do_screen_area_data.remove_duplicate_data()
-
+'''
 if __name__ == '__main__':
     main()
