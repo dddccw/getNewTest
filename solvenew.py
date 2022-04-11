@@ -4,14 +4,14 @@ from getnew import *
 from matchnew import *
 import pandas as pd
 
-class screen_area_data(object):
+class solvenew_data(object):
     '''
         用于筛选爬虫获取到的中高风险地区数据
     '''
     def __init__(self):
         pass
     
-    def screen_area_data(self):
+    def solvenew_data(self):
         area_data0 =get_middlehigh_region()
         area_data1=area_data0.save_data()
         return area_data1
@@ -32,7 +32,7 @@ class screen_area_data(object):
         # 获取数据
        
         # 对风险地区按照高风险到中风险排序
-        area_data=self.screen_area_data()
+        area_data=self. solvenew_data()
         area_data = area_data.sort_values(by='风险等级', ascending=False)
         area_data = area_data.drop_duplicates(subset=['已筛选地区'],keep='first')
         area_data.index = range(len(area_data))
