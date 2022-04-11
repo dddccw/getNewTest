@@ -1,6 +1,6 @@
 from config import *
 from py2neo import *
-from getnew import *
+from getNew import *
 import pandas as pd
 import xlrd as xd
 class matchnew(object):

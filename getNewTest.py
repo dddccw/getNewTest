@@ -1,5 +1,5 @@
-from getnew import *
-from solvenew import *
+from getNew import *
+from solveNew import *
 from py2neo import *
 import pandas as pd
 import time
@@ -16,7 +16,7 @@ def main():
     #do_get_middlehigh_region.save_data()
 
     # 2、筛选、存储筛选后的疫情地区数据
-    
+    '''
     #target_time = time.mktime(time.strptime("2022-4-8 14:29", "%Y-%m-%d %H:%M"))
     #获取当前0时区时间
     timet1=time.gmtime()
@@ -50,9 +50,8 @@ def main():
            time.sleep(61)
     #do_screen_area_data = screen_area_data()
     #do_screen_area_data.remove_duplicate_data()
-'''
-    do_screen_area_data = screen_area_data()
-    do_screen_area_data.remove_duplicate_data()
-'''
+    '''
+    do_solve_area_data =  solvenew_data()
+    do_solve_area_data.remove_duplicate_data()
 if __name__ == '__main__':
     main()
